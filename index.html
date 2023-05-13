@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Students List</title>
+  </head>
+  <body>
+    <h1>Students List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Lastname</th>
+          <th>Birthdate</th>
+          <th>Career</th>
+          <th>Average</th>
+        </tr>
+      </thead>
+      <tbody id="studentsTableBody"></tbody>
+    </table>
+    
+    <button id="refreshButton">Refresh</button>
+
+    <script>
+      const studentsTableBody = document.getElementById('studentsTableBody');
+      const refreshButton = document.getElementById('refreshButton');
+
+      // Función para agregar una fila a la tabla
+      function addRowToTable(student) {
+        const row = studentsTableBody.insertRow();
+        const idCell = row.insertCell();
+        const nameCell = row.insertCell();
+        const lastnameCell = row.insertCell();
+        const brithdateCell = row.insertCell();
+        const careerCell = row.insertCell();
+        const avarageCell = row.insertCell();
+        idCell.innerText = student.id;
+        nameCell.innerText = student.name;
+        lastnameCell.innerText = student.lastname;
+        brithdateCell.innerText = student.brithdate;
+        careerCell.innerText = student.career;
+        avarageCell.innerText = student.avarage;
+      }
+
+      // Función para obtener los datos del API y agregarlos a la tabla
+      async function getStudents() {
+        // Limpiar la tabla antes de actualizarla
+        studentsTableBody.innerHTML = '';
+        
+        const response = await fetch('http://localhost:4000/api/student');
+        const students = await response.json();
+        students.forEach(student => addRowToTable(student));
+      }
+
+      // Llamar a la función getStudents al cargar la página
+      window.onload = getStudents;
+
+      // Agregar un manejador de eventos al botón Refresh
+      refreshButton.addEventListener('click', getStudents);
+    </script>
+  </body>
+</html>

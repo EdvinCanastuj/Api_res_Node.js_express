@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API REST Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Students</h1>
+    <table id="studentsTable">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Lastname</th>
+        <th>Birthdate</th>
+        <th>Career</th>
+        <th>Average</th>
+      </tr>
+    </table>
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          url: "http://localhost:4000/api/student",
+          type: "GET",
+          dataType: "json",
+          success: function(data) {
+            $.each(data, function(i, student) {
+              var row = $("<tr>").appendTo("#studentsTable");
+              $("<td>").text(student.id).appendTo(row);
+              $("<td>").text(student.name).appendTo(row);
+              $("<td>").text(student.lastname).appendTo(row);
+              $("<td>").text(student.brithdate).appendTo(row);
+              $("<td>").text(student.career).appendTo(row);
+              $("<td>").text(student.avarage).appendTo(row);
+            });
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
